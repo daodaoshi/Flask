@@ -10,22 +10,27 @@
     {% endblock %}
 </head>
 <body>
-    <!-- 插入在页面标题上方 -->
-    {% for message in get_flashed_messages() %}
-        <div class="alert">{{ message }}</div>
-    {% endfor%}
-    <h2>
-        <img alt="Avatar" src="{{ url_for('static', filename='images/avatar.png')}}" class="avatar">
-        {{ user.name }}'s Watchlist
-    </h2>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-        </ul>
-    </nav>
-    {% block content %}{% endblock %}
-    <footer>
-        <small>&copy; 2018 <a href="http://helloflask.com/tutorial">HelloFlask</a></small>
-    </footer>
+<!-- 插入在页面标题上方 -->
+{% for message in get_flashed_messages() %}
+<div class="alert">{{ message }}</div>
+{% endfor%}
+<h2>
+    <img alt="Avatar" src="{{ url_for('static', filename='images/avatar.png')}}" class="avatar">
+    {{ user.name }}'s Watchlist
+</h2>
+<nav>
+    <ul>
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('settings') }}">Settings</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% block content %}{% endblock %}
+<footer>
+    <small>&copy; 2018 <a href="http://helloflask.com/tutorial">HelloFlask</a></small>
+</footer>
 </body>
 </html>
